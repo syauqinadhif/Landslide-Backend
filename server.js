@@ -18,8 +18,11 @@ const options = {
 // Create MQTT client and connect to broker
 const client = mqtt.connect(brokerUrl, options);
 
-// Create WebSocket server on port 8080
-const wss = new WebSocket.Server({ port: 8080 });
+// Use port provided by Vercel or fallback to 8080 for local development
+const port = process.env.PORT || 8080;
+
+// Create WebSocket server on the provided port
+const wss = new WebSocket.Server({ port });
 
 // MQTT Client Event: Connect
 client.on("connect", () => {
@@ -71,4 +74,4 @@ client.on("error", (err) => {
   console.error("Connection error:", err);
 });
 
-console.log("WebSocket server is running on ws://localhost:8080");
+console.log(`WebSocket server is running on ws://localhost:${port}`);
